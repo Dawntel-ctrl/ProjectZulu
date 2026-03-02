@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Zulu/Zulu.vcxproj" />
+  <Project Path="Zulu/Zulu.vcxproj" Id="a22f5776-395b-448a-a23f-d0c3b984a09f" />
 </Solution>

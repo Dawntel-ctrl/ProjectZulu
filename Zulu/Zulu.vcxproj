@@ -127,11 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="ResourceDecayRule.cpp" />
+    <ClCompile Include="RuleEngine.cpp" />
     <ClCompile Include="BehaviorAnalyzer.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Zulu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BehaviorAnalyzer.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="ResourceDecayRule.h" />
+    <ClInclude Include="Rule.h" />
+    <ClInclude Include="RuleEngine.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
