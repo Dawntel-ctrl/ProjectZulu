@@ -1,26 +1,15 @@
 // Zulu.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
 
-int main()
-{
-  
-  
-  double OurBread = 89.000;
-  double tax1 = .4;
-  double tax2 = .3;
-  double own1 = OurBread * tax1;
-  double own2 = OurBread * tax2;
-  double TakeHome = OurBread;
+ 
 
-  
+#include "Game.h"
 
-  
-  std::cout <<"Sales:" << TakeHome, own1, own2;
-  
-  return 0;
-
+int main() {
+    Game game;
+    game.run();
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

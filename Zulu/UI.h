@@ -4,6 +4,6 @@
 
 class UI {
 public:
-    void displayState(const GameState& state) const;
+   // void displayState(const GameState& state) const;
     std::string getPlayerChoice() const;
 };

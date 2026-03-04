@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -127,6 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExpandScene.cpp" />
+    <ClCompile Include="ExploreScene.cpp" />
+    <ClCompile Include="FortifyScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ResourceDecayRule.cpp" />
     <ClCompile Include="RuleEngine.cpp" />
@@ -136,8 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorAnalyzer.h" />
+    <ClInclude Include="ExpandScene.h" />
+    <ClInclude Include="ExploreScene.h" />
+    <ClInclude Include="FortifyScene.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="ResourceDecayRule.h" />
     <ClInclude Include="Rule.h" />
     <ClInclude Include="RuleEngine.h" />
