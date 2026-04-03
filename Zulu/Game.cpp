@@ -6,35 +6,18 @@
 #include "FortifyScene.h"
 #include "ExpandScene.h"
 
-
-// STATE ACCESS
-
-/*
-    Returns reference to internal GameState.
-
-    This allows Scene objects to access and modify
-    the world stats through the Game interface.
-*/
 GameState& Game::getState() {
     return state;
 }
 
-
-//CONSTRUCTOR
-/*
-    Constructor initializes:
-    - Control flags
-    - Starting world stats
-*/
 Game::Game() : isRunning(true), mutationTriggered(false) {
-
-    // Initial world balance
+    // Start simple so scene changes and rule changes are easy to notice.
     state.resources = 10;
     state.stability = 10;
     state.influence = 5;
     state.turn = 1;
 }
-//you good?
+
 void Game::printHUD() const {
     std::cout << "\n==================================================\n";
     std::cout << "[ COMMAND INTERFACE :: SECTOR-7 ]\n";
@@ -46,53 +29,23 @@ void Game::printHUD() const {
     std::cout << "==================================================\n\n";
 }
 
-
-
-// MAIN LOOP
-
-/*
-    Runs until game over condition is reached.
-*/
 void Game::run() {
-
-    // FIX:
-    // Removed initial HUD + menu printing from here
-    // to prevent duplicate interface display.
-
     while (isRunning) {
+        processTurn();
 
-        processTurn();  // Execute one full turn cycle
-
-        // Check losing conditions
         if (checkGameOver()) {
             isRunning = false;
         }
 
-        nextTurn();     // Advance turn counter safely
+        nextTurn();
     }
 
     std::cout << "\nGame Over.\n";
 }
 
-
-// TURN PIPELINE
-
-/*
-    Order of execution per turn:
-
-    1. Display world state
-    2. Get player input
-    3. Execute Scene logic
-    4. Log player behavior
-    5. Inject mutations if needed
-    6. Apply global rules
-*/
 void Game::processTurn() {
-
     printHUD();
 
-    // FIX:
-    // Menu printing moved here so it displays once per turn.
     std::cout << "Choose an action:\n";
     std::cout << " 1) Explore\n";
     std::cout << " 2) Fortify\n";
@@ -101,6 +54,8 @@ void Game::processTurn() {
 
     std::string choice = ui.getPlayerChoice();
 
+    // Keep the top-level loop small.
+    // Scenes own the actual moment-to-moment interaction.
     handlePlayerChoice(choice);
 
     behaviorAnalyzer.logAction(choice);
@@ -110,24 +65,14 @@ void Game::processTurn() {
     ruleEngine.applyRules(state);
 }
 
-
-//SCENE DISPATCH
-
-/*
-    Creates the appropriate Scene dynamically.
-
-    We use std::unique_ptr so memory is automatically
-    cleaned up when scene changes.
-*/
 void Game::handlePlayerChoice(const std::string& choice) {
-
-    if (choice == "1") {
+    if (choice == "1" || choice == "explore") {
         currentScene = std::make_unique<ExploreScene>();
     }
-    else if (choice == "2") {
+    else if (choice == "2" || choice == "fortify") {
         currentScene = std::make_unique<FortifyScene>();
     }
-    else if (choice == "3") {
+    else if (choice == "3" || choice == "expand") {
         currentScene = std::make_unique<ExpandScene>();
     }
     else {
@@ -135,45 +80,20 @@ void Game::handlePlayerChoice(const std::string& choice) {
         return;
     }
 
-    /*
-        Execute the selected scene.
-
-        We pass *this so the scene can interact
-        with the Game via public functions.
-    */
+    // Swap in the selected scene and let it drive until it hands control back.
     currentScene->run(*this);
 }
 
-
-// MUTATION SYSTEM
-
-/*
-    If player repeats same action 3 times,
-    inject ResourceDecayRule dynamically.
-*/
 void Game::checkForMutations(const std::string& choice) {
-
     if (!mutationTriggered && behaviorAnalyzer.isRepetitive(choice)) {
-
         std::cout << "\n A new force has emerged...\n";
 
-        // Add new adaptive rule
         ruleEngine.addRule(new ResourceDecayRule());
-
         mutationTriggered = true;
     }
 }
 
-
-//    GAME OVER CHECK
-
-/*
-    Game ends if:
-    - Resources depleted
-    - Stability collapses
-*/
 bool Game::checkGameOver() const {
-
     if (state.resources <= 0 || state.stability <= 0) {
         return true;
     }
@@ -181,38 +101,18 @@ bool Game::checkGameOver() const {
     return false;
 }
 
-/*
-
-                SAFE MODIFIER FUNCTIONS
-
-    These allow Scenes to modify stats
-    WITHOUT directly touching GameState.
-*/
-
-/*
-    Increase or decrease resources.
-*/
 void Game::modifyResources(int amount) {
     state.resources += amount;
 }
 
-/*
-    Increase or decrease stability.
-*/
 void Game::modifyStability(int amount) {
     state.stability += amount;
 }
 
-/*
-    Increase or decrease influence.
-*/
 void Game::modifyInfluence(int amount) {
     state.influence += amount;
 }
 
-/*
-    Getter functions for read only access.
-*/
 int Game::getResources() const {
     return state.resources;
 }
@@ -225,9 +125,6 @@ int Game::getInfluence() const {
     return state.influence;
 }
 
-/*
-    Safely advances the turn counter.
-*/
 void Game::nextTurn() {
     state.turn++;
 }

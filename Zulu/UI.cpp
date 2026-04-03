@@ -1,21 +1,20 @@
 #include "UI.h"
 #include <iostream>
-
-//void UI::displayState(const GameState& state) const {
-    //std::cout << "\nTurn: " << state.turn << "\n";
-    //std::cout << "Resources: " << state.resources << "\n";
-    //std::cout << "Stability: " << state.stability << "\n";
-    //std::cout << "Influence: " << state.influence << "\n";
-
-//    std::cout << "\nChoose an action:\n";
-  //  std::cout << "1) Explore\n";
-    //std::cout << "2) Fortify\n";
-   // std::cout << "3) Expand\n";
-//}
+#include <algorithm>
+#include <cctype>
 
 std::string UI::getPlayerChoice() const {
     std::string choice;
-    std::cout << "Enter choice: ";
-    std::cin >> choice;
+    std::getline(std::cin, choice);
+
+    // Normalize once here so the rest of the game can stay focused on logic.
+    choice.erase(choice.begin(), std::find_if(choice.begin(), choice.end(),
+        [](unsigned char ch) { return !std::isspace(ch); }));
+    choice.erase(std::find_if(choice.rbegin(), choice.rend(),
+        [](unsigned char ch) { return !std::isspace(ch); }).base(), choice.end());
+
+    std::transform(choice.begin(), choice.end(), choice.begin(),
+        [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+
     return choice;
 }

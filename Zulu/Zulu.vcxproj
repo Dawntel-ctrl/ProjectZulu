@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionKnowledge.cpp" />
     <ClCompile Include="ExpandScene.cpp" />
     <ClCompile Include="ExploreScene.cpp" />
     <ClCompile Include="FortifyScene.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="Zulu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionKnowledge.h" />
     <ClInclude Include="BehaviorAnalyzer.h" />
     <ClInclude Include="ExpandScene.h" />
     <ClInclude Include="ExploreScene.h" />
